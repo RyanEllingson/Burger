@@ -1,74 +1,117 @@
 import API from "/js/api.js";
 
 // Get references to page elements
-const exampleTextEl = document.getElementById("example-text");
-const exampleDescriptionEl = document.getElementById("example-description");
-const submitBtnEl = document.getElementById("submit");
-const exampleListEl = document.getElementById("example-list");
+const burgerListEl = document.getElementById("burger-list");
+const devouredBurgerListEl = document.getElementById("devoured-burger-list");
+const addBtnEl = document.getElementById("add-button");
+const burgerNameEl = document.getElementById("burger-name");
 
 // refreshExamples gets new examples from the db and repopulates the list
-const refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    const exampleEls = data.map(function(example) {
-      const aEl = document.createElement("a");
-      aEl.innerHTML = example.text;
-      aEl.setAttribute("href", "/example/?id=" + example.id);
+const refreshBurgers = function() {
+  API.getBurgers().then(function(data) {
+    burgerListEl.innerHTML = "";
+    devouredBurgerListEl.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+      if (!data[i].devoured) {
+        const pEl = document.createElement("p");
+        pEl.innerHTML = data[i].burger_name;
 
-      const liEl = document.createElement("li");
-      liEl.classList.add("list-group-item");
-      liEl.setAttribute("data-id", example.id);
-      liEl.append(aEl);
+        const liEl = document.createElement("li");
+        liEl.classList.add("list-group-item");
+        liEl.setAttribute("data-id", data[i].id);
+        liEl.append(pEl);
 
-      const buttonEl = document.createElement("button");
-      buttonEl.classList.add("btn", "btn-danger", "float-right", "delete");
-      buttonEl.innerHTML = "ｘ";
-      buttonEl.addEventListener("click", handleDeleteBtnClick);
+        const buttonEl = document.createElement("button");
+        buttonEl.classList.add("btn", "btn-warning", "devour");
+        buttonEl.innerHTML = "devour burger";
+        buttonEl.addEventListener("click", handleDevourBtnClick);
 
-      liEl.append(buttonEl);
+        liEl.append(buttonEl);
+        burgerListEl.append(liEl);
+      } else {
+        const pEl = document.createElement("p");
+        pEl.innerHTML = data[i].burger_name;
 
-      return liEl;
-    });
+        const liEl = document.createElement("li");
+        liEl.classList.add("list-group-item");
+        liEl.setAttribute("data-id", data[i].id);
+        liEl.append(pEl);
 
-    exampleListEl.innerHTML = "";
-    exampleListEl.append(...exampleEls);
+        const buttonEl = document.createElement("button");
+        buttonEl.classList.add("btn", "btn-danger", "delete");
+        buttonEl.innerHTML = "delete";
+        buttonEl.addEventListener("click", handleDeleteBtnClick);
+
+        liEl.append(buttonEl);
+        devouredBurgerListEl.append(liEl);
+      }
+    }
+    // const exampleEls = data.map(function(example) {
+    //   const aEl = document.createElement("a");
+    //   aEl.innerHTML = example.text;
+    //   aEl.setAttribute("href", "/example/?id=" + example.id);
+
+    //   const liEl = document.createElement("li");
+    //   liEl.classList.add("list-group-item");
+    //   liEl.setAttribute("data-id", example.id);
+    //   liEl.append(aEl);
+
+    //   const buttonEl = document.createElement("button");
+    //   buttonEl.classList.add("btn", "btn-danger", "float-right", "delete");
+    //   buttonEl.innerHTML = "ｘ";
+    //   buttonEl.addEventListener("click", handleDeleteBtnClick);
+
+    //   liEl.append(buttonEl);
+
+    //   return liEl;
+    // });
+
+    // burgerListEl.innerHTML = "";
+    // burgerListEl.append(...exampleEls);
   });
 };
-refreshExamples();
+refreshBurgers();
 
 // handleFormSubmit is called whenever we submit a new example
 // Save the new example to the db and refresh the list
 const handleFormSubmit = function(event) {
   event.preventDefault();
 
-  const example = {
-    text: exampleTextEl.value.trim(),
-    description: exampleDescriptionEl.value.trim()
+  const burger = {
+    burger_name: burgerNameEl.value.trim()
   };
 
-  if (!(example.text && example.description)) {
+  if (!burger.burger_name) {
     alert("You must enter an example text and description!");
     return;
   }
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
+  API.saveBurger(burger).then(function() {
+    refreshBurgers();
   });
 
-  exampleTextEl.value = "";
-  exampleDescriptionEl.value = "";
+  burgerNameEl.value = "";
 };
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
+// handleDeleteBtnClick is called when a burger's delete button is clicked
+// Remove the burger from the db and refresh the list
 const handleDeleteBtnClick = function(event) {
   const idToDelete = event.target.parentElement.getAttribute("data-id");
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
+  API.deleteBurger(idToDelete).then(function() {
+    refreshBurgers();
   });
 };
 
-// Add event listeners to the submit and delete buttons
-submitBtnEl.addEventListener("click", handleFormSubmit);
-document.querySelectorAll(".delete").forEach(btn => {
-  btn.addEventListener("click", handleDeleteBtnClick);
-});
+// Change the burger's "devoured" value to true and refresh the list
+const handleDevourBtnClick = function(event) {
+  const idToDelete = event.target.parentElement.getAttribute("data-id");
+  API.devourBurger(idToDelete).then(function() {
+    refreshBurgers();
+  });
+};
+
+// Add event listeners to the add button
+addBtnEl.addEventListener("click", handleFormSubmit);
+// document.querySelectorAll(".delete").forEach(btn => {
+//   btn.addEventListener("click", handleDeleteBtnClick);
+// });

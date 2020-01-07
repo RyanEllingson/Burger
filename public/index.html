@@ -5,14 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
-    <h1>Example</h1>
-    <input id="example-text">
-    <input id="example-description">
-    <button id="submit">submit</button>
-    <div id="example-list"></div>
-    <script src="/js/index.js" type="module"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-6" id="burger-list">
+
+            </div>
+            <div class="col-6" id="devoured-burger-list">
+
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <form class="form-inline">
+                    <div class="form-group mx-sm-3">
+                        <input type="text" class="form-control" id="burger-name" placeholder="Enter burger name">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="add-button">Add burger</button>
+                </form>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+    <script src="./js/index.js" type="module"></script>
 </body>
 </html>
