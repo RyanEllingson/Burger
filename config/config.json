@@ -1,27 +1,27 @@
 {
   "development": {
-    "username": "root",
-    "password": "root",
-    "database": "burgers_db",
-    "host": "localhost",
+    "username": "of4rzgnu78ulgr14",
+    "password": "e11yqrlixe54j1b0",
+    "database": "ktp3kh6bgm33g4ux",
+    "host": "ocvwlym0zv3tcn68.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "port": "3306",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": "root",
-    "database": "burgers_db",
-    "host": "127.0.0.1",
+    "username": "of4rzgnu78ulgr14",
+    "password": "e11yqrlixe54j1b0",
+    "database": "ktp3kh6bgm33g4ux",
+    "host": "ocvwlym0zv3tcn68.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "port": "3306",
     "socketPath": "~travis/.my.cnf",
     "dialect": "mysql",
     "logging": false
   },
   "ci": {
-    "username": "root",
-    "password": "root",
-    "database": "testdb",
-    "host": "127.0.0.1",
+    "username": "of4rzgnu78ulgr14",
+    "password": "e11yqrlixe54j1b0",
+    "database": "ktp3kh6bgm33g4ux",
+    "host": "ocvwlym0zv3tcn68.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "socketPath": "~travis/.my.cnf",
     "dialect": "mysql",
     "logging": false
